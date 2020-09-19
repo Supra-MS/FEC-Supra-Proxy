@@ -18,7 +18,13 @@ app.use('/proxy', proxy('www.google.com', {
  }
 }));
 
-app.use('/rooms', proxy('http://ec2-54-215-129-94.us-west-1.compute.amazonaws.com:3002', {
+app.use('/header', proxy('http://localhost:3010', {
+  proxyReqPathResolver: function (req) {
+    return `/`;
+  }
+}));
+
+app.use('/rooms', proxy('http://http://ec2-3-101-118-169.us-west-1.compute.amazonaws.com:3002', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let pathname = req.url.split('/')[1];
@@ -28,7 +34,7 @@ app.use('/rooms', proxy('http://ec2-54-215-129-94.us-west-1.compute.amazonaws.co
   }
 }));
 
-app.use('/hostInfo', proxy('http://ec2-54-215-129-94.us-west-1.compute.amazonaws.com:3006', {
+app.use('/hostInfo', proxy('http://http://ec2-3-101-118-169.us-west-1.compute.amazonaws.com:3006', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let queryString = parts[1];
@@ -38,7 +44,7 @@ app.use('/hostInfo', proxy('http://ec2-54-215-129-94.us-west-1.compute.amazonaws
   }
 }));
 
-app.use('/images', proxy('http://localhost:3001', {
+app.use('/images', proxy('http://ec2-3-21-170-25.us-east-2.compute.amazonaws.com', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let queryString = parts[1];
