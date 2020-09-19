@@ -54,7 +54,7 @@ app.use('/images', proxy('http://ec2-3-21-170-25.us-east-2.compute.amazonaws.com
   }
 }));
 
-app.use('/pricing', proxy('http://localhost:3003', {
+app.use('/pricing', proxy('http://54.187.6.96:3003/', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let queryString = parts[1];
