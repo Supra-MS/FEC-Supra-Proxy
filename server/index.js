@@ -8,10 +8,6 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.static(__dirname + '/../client'));
 
-app.get('/:id', (req, res) => {
-  res.sendFile(path.join(__dirname + './../client/index.html'));
-});
-
 app.use('/proxy', proxy('www.google.com', {
   filter: function(req, res) {
     return req.method == 'GET';
@@ -24,7 +20,7 @@ app.use('/header', proxy('http://localhost:3010', {
   }
 }));
 
-app.use('/rooms', proxy('http://ec2-13-56-20-100.us-west-1.compute.amazonaws.com:3002', {
+app.use('/rooms', proxy('http://localhost:3002', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let pathname = req.url.split('/')[1];
@@ -34,7 +30,7 @@ app.use('/rooms', proxy('http://ec2-13-56-20-100.us-west-1.compute.amazonaws.com
   }
 }));
 
-app.use('/hostInfo', proxy('http://ec2-13-56-20-100.us-west-1.compute.amazonaws.com:3006', {
+app.use('/hostInfo', proxy('http://localhost:3006', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let queryString = parts[1];
@@ -44,7 +40,7 @@ app.use('/hostInfo', proxy('http://ec2-13-56-20-100.us-west-1.compute.amazonaws.
   }
 }));
 
-app.use('/images', proxy('http://ec2-3-21-170-25.us-east-2.compute.amazonaws.com', {
+app.use('/images', proxy('http://localhost:3001', {
   proxyReqPathResolver: function (req) {
     let parts = req.url.split('?');
     let queryString = parts[1];
@@ -80,8 +76,6 @@ app.use('/location', proxy('http://localhost:3005', {
   }
 }));
 
-
 app.listen(PORT, () => {
   console.log(`Proxy Server listening on port http://localhost:${PORT}`);
 });
-
